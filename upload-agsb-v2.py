@@ -1,10 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import os
 import sys
 import json
-import random
+import v302
 import time
 import shutil
 import re
@@ -14,920 +11,758 @@ import subprocess
 import platform
 from datetime import datetime
 import uuid
-from pathlib import Path
-import urllib.request
+from v279 import Path
+import v396.v311
 import ssl
-import tempfile
+import v373
 import argparse
-
-# 全局变量
-INSTALL_DIR = Path.home() / ".agsb"  # 用户主目录下的隐藏文件夹，避免root权限
-CONFIG_FILE = INSTALL_DIR / "config.json"
-SB_PID_FILE = INSTALL_DIR / "sbpid.log"
-ARGO_PID_FILE = INSTALL_DIR / "sbargopid.log"
-LIST_FILE = INSTALL_DIR / "list.txt"
-LOG_FILE = INSTALL_DIR / "argo.log"
-DEBUG_LOG = INSTALL_DIR / "python_debug.log"
-CUSTOM_DOMAIN_FILE = INSTALL_DIR / "custom_domain.txt" # 存储最终使用的域名
-
-# ====== 全局可配置参数（可直接在此处修改） ======
-USER_NAME = "gdljlj"         # 用户名
-UUID = "a91b59b6-ade4-497d-b4e9-88d184c48048"                     # UUID，留空则自动生成
-PORT = 49999                   # Vmess端口，留空或0则自动生成
-DOMAIN = "newgg.xwm.dpdns.org"                   # 域名，留空则自动获取
-CF_TOKEN = "eyJhIjoiOGRmYzUzODAwYmQ5NGQwZjYzMDNkMGUzNzA4Y2IxMjUiLCJ0IjoiYjU2ZGRmZTAtOWM1Mi00ZGZiLThmMmQtNTlmYzEwNWI2ZWM5IiwicyI6Ik56RXdaakppWlRRdFlqWXdZUzAwTm1Zd0xXRmhOV1V0TlRrNE56ZGhZbU0yTUdOaSJ9"                 # Cloudflare Token，留空则用Quick Tunnel
-# =========================================
-
-# 添加命令行参数解析
-def parse_args():
-    parser = argparse.ArgumentParser(description="ArgoSB Python3 一键脚本 (支持自定义域名和Argo Token)")
-    parser.add_argument("action", nargs="?", default="install",
-                        choices=["install", "status", "update", "del", "uninstall", "cat"],
-                        help="操作类型: install(安装), status(状态), update(更新), del(卸载), cat(查看节点)")
-    parser.add_argument("--domain", "-d", dest="agn", help="设置自定义域名 (例如: xxx.trycloudflare.com 或 your.custom.domain)")
-    parser.add_argument("--uuid", "-u", help="设置自定义UUID")
-    parser.add_argument("--port", "-p", dest="vmpt", type=int, help="设置自定义Vmess端口")
-    parser.add_argument("--agk", "--token", dest="agk", help="设置 Argo Tunnel Token (用于Cloudflare Zero Trust命名隧道)")
-    parser.add_argument("--user", "-U", dest="user", help="设置用户名（用于上传文件名）")
-
-    return parser.parse_args()
-
-# 网络请求函数
-def http_get(url, timeout=10):
+v22 = Path.v207() / ".v261"  
+v6 = v22 / "v133.json"
+v44 = v22 / "v330.v243"
+v440 = v22 / "v331.v243"
+v26 = v22 / "list.v385"
+v27 = v22 / "v438.v243"
+v11 = v22 / "v299.v243"
+v7 = v22 / "v146.v385" 
+v55 = "v226"         
+v56 = "v76-v81-497d-v102-88d184c48048"                     
+v36 = 49999                   
+v12 = "v195.v443.v196"                   
+v49 = "v188"                 
+def v276():
+    v277 = argparse.v4(v154="v439 v40 一键脚本 (支持自定义域名和zmk v50)")
+    v277.v80("v78", v264="?", v152="v219",
+                        v127=["v219", "v355", "v390", "del", "v388", "v108"],
+                        v206="操作类型: v219(安装), v355(状态), v390(更新), del(卸载), v108(查看目录)")
+    v277.v80("--v161", "-v149", v155="v83", v206="设置自定义域名 (例如: v429.v383.v132 或 v433.v145.v161)")
+    v277.v80("--uuid", "-v387", v206="设置自定义UUID")
+    v277.v80("--v284", "-v273", v155="v415", v386=int, v206="设置自定义Vmess端口")
+    v277.v80("--v82", "--v380", v155="v82", v206="设置 v438 v51 v50 (用于Cloudflare v73 Trust命名隧道)")
+    v277.v80("--v398", "-v52", v155="v398", v206="设置用户名（用于上传文件名）")
+    return v277.v276()
+def v212(v394, v376=10):
     try:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        v144 = ssl.v138()
+        v144.v123 = False
+        v144.v407 = ssl.v5
+        v205 = {
+            'v58-v1': 'v30/5.0 (v67 v31 10.0; v66; v427) v3/537.36 (v25, v230 v19) v8/91.0.4472.124 v45/537.36'
         }
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, context=ctx, timeout=timeout) as response:
-            return response.read().decode('utf-8')
-    except Exception as e:
-        print(f"HTTP请求失败: {url}, 错误: {e}")
-        write_debug_log(f"HTTP GET Error: {url}, {e}")
+        v310 = v396.v311.v42(v394, v205=v205)
+        with v396.v311.v397(v310, v136=v144, v376=v376) as v314:
+            return v314.v304().v151('v402-8')
+    except v17 as v170:
+        print(v189"HTTP请求失败: {v394}, 错误: {v170}")
+        v420(v189"v21 v18 v16: {v394}, {v170}")
         return None
-
-def download_file(url, target_path, mode='wb'):
+def v166(v394, v370, v258='v417'):
     try:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        v144 = ssl.v138()
+        v144.v123 = False
+        v144.v407 = ssl.v5
+        v205 = {
+            'v58-v1': 'v30/5.0 (v67 v31 10.0; v66; v427) v3/537.36 (v25, v230 v19) v8/91.0.4472.124 v45/537.36'
         }
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, context=ctx) as response, open(target_path, mode) as out_file:
-            shutil.copyfileobj(response, out_file)
+        v310 = v396.v311.v42(v394, v205=v205)
+        with v396.v311.v397(v310, v136=v144) as v314, open(v370, v258) as v271:
+            shutil.v137(v314, v271)
         return True
-    except Exception as e:
-        print(f"下载文件失败: {url}, 错误: {e}")
-        write_debug_log(f"Download Error: {url}, {e}")
+    except v17 as v170:
+        print(v189"下载文件失败: {v394}, 错误: {v170}")
+        v420(v189"v15 v16: {v394}, {v170}")
         return False
-
-# 脚本信息
-def print_info():
+def v289():
     print("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
-    print("\033[36m│             \033[33m✨ ArgoSB Python3 自定义域名版 ✨              \033[36m│\033[0m")
+    print("\033[36m│             \033[33m✨ v439 v40 自定义域名版 ✨              \033[36m│\033[0m")
     print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    print("\033[36m│ \033[32m作者: 康康                                                  \033[36m│\033[0m")
-    print("\033[36m│ \033[32mGithub: https://github.com/zhumengkang/                    \033[36m│\033[0m")
-    print("\033[36m│ \033[32mYouTube: https://www.youtube.com/@康康的V2Ray与Clash         \033[36m│\033[0m")
-    print("\033[36m│ \033[32mTelegram: https://t.me/+WibQp7Mww1k5MmZl                   \033[36m│\033[0m")
-    print("\033[36m│ \033[32m版本: 25.7.0 (支持Argo Token及交互式输入)                 \033[36m│\033[0m")
+    print("\033[36m│ \033[32m作者: 肥肥                                                  \033[36m│\033[0m")
+    print("\033[36m│ \033[32mGithub: v213://v202.v132/v436/                    \033[36m│\033[0m")
+    print("\033[36m│ \033[32mYouTube: v213://v426.v434.v132/@肥肥的V2Ray与Clash         \033[36m│\033[0m")
+    print("\033[36m│ \033[32mTelegram: v213://v364.v254/+v65                   \033[36m│\033[0m")
+    print("\033[36m│ \033[32m版本: 25.7.0 (支持zmk Token及交互式输入)                 \033[36m│\033[0m")
     print("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
-
-# 打印使用帮助信息
-def print_usage():
+def v290():
     print("\033[33m使用方法:\033[0m")
-    print("  \033[36mpython3 script.py\033[0m                     - 交互式安装或启动服务")
-    print("  \033[36mpython3 script.py install\033[0m             - 安装服务 (可配合参数)")
-    print("  \033[36mpython3 script.py --agn example.com\033[0m   - 使用自定义域名安装")
-    print("  \033[36mpython3 script.py --uuid YOUR_UUID\033[0m      - 使用自定义UUID安装")
-    print("  \033[36mpython3 script.py --vmpt 12345\033[0m         - 使用自定义端口安装")
-    print("  \033[36mpython3 script.py --agk YOUR_TOKEN\033[0m     - 使用Argo Tunnel Token安装")
-    print("  \033[36mpython3 script.py status\033[0m              - 查看服务状态和节点信息")
-    print("  \033[36mpython3 script.py cat\033[0m                 - 查看单行节点列表")
-    print("  \033[36mpython3 script.py update\033[0m              - 更新脚本")
-    print("  \033[36mpython3 script.py del\033[0m                 - 卸载服务")
+    print("  \033[36mpython3 v332.v297\033[0m                     - 交互式安装或启动服务")
+    print("  \033[36mpython3 v332.v297 v219\033[0m             - 安装服务 (可配合参数)")
+    print("  \033[36mpython3 v332.v297 --v83 v180.v132\033[0m   - 使用自定义域名安装")
+    print("  \033[36mpython3 v332.v297 --uuid v70\033[0m      - 使用自定义UUID安装")
+    print("  \033[36mpython3 v332.v297 --v415 12345\033[0m         - 使用自定义端口安装")
+    print("  \033[36mpython3 v332.v297 --v82 v69\033[0m     - 使用zmk v51 Token安装")
+    print("  \033[36mpython3 v332.v297 v355\033[0m              - 查看服务状态和目录信息")
+    print("  \033[36mpython3 v332.v297 v108\033[0m                 - 查看单行目录列表")
+    print("  \033[36mpython3 v332.v297 v390\033[0m              - 更新脚本")
+    print("  \033[36mpython3 v332.v297 del\033[0m                 - 卸载服务")
     print()
     print("\033[33m支持的环境变量:\033[0m")
-    print("  \033[36mexport vmpt=12345\033[0m                       - 设置自定义Vmess端口")
-    print("  \033[36mexport uuid=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\033[0m - 设置自定义UUID")
-    print("  \033[36mexport agn=your-domain.com\033[0m              - 设置自定义域名")
-    print("  \033[36mexport agk=YOUR_ARGO_TUNNEL_TOKEN\033[0m       - 设置Argo Tunnel Token")
+    print("  \033[36mexport v415=12345\033[0m                       - 设置自定义Vmess端口")
+    print("  \033[36mexport uuid=v431-v430-v430-v430-v432\033[0m - 设置自定义UUID")
+    print("  \033[36mexport v83=v433-v161.v132\033[0m              - 设置自定义域名")
+    print("  \033[36mexport v82=v71\033[0m       - 设置zmk v51 v50")
     print()
-
-# 写入日志函数
-def write_debug_log(message):
+def v420(v255):
     try:
-        if not INSTALL_DIR.exists():
-            INSTALL_DIR.mkdir(parents=True, exist_ok=True)
-        with open(DEBUG_LOG, 'a', encoding='utf-8') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f"[{timestamp}] {message}\n")
-    except Exception as e:
-        print(f"写入日志失败: {e}")
-
-# 下载二进制文件
-def download_binary(name, download_url, target_path):
-    print(f"正在下载 {name}...")
-    success = download_file(download_url, target_path)
-    if success:
-        print(f"{name} 下载成功!")
-        os.chmod(target_path, 0o755)
+        if not v22.v183():
+            v22.v257(v275=True, v182=True)
+        with open(v11, 'v74', v177='v402-8') as v189:
+            v377 = datetime.v269().v358('%v68-%v248-%v149 %v20:%v29:%v43')
+            v189.v419(v189"[{v377}] {v255}\v262")
+    except v17 as v170:
+        print(v189"写入日志失败: {v170}")
+def v165(v263, v167, v370):
+    print(v189"正在下载 {v263}...")
+    v362 = v166(v167, v370)
+    if v362:
+        print(v189"{v263} 下载成功!")
+        os.v126(v370, 0o755)
         return True
     else:
-        print(f"{name} 下载失败!")
+        print(v189"{v263} 下载失败!")
         return False
-
-# 生成VMess链接
-def generate_vmess_link(config):
-    vmess_obj = {
-        "v": "2",
-        "ps": config.get("ps", "ArgoSB"),
-        "add": config.get("add", ""),
-        "port": str(config.get("port", "443")), # 确保端口是字符串
-        "id": config.get("id", ""),
-        "aid": str(config.get("aid", "0")), # 确保aid是字符串
-        "net": config.get("net", "ws"),
-        "type": config.get("type", "none"),
-        "host": config.get("host", ""),
-        "path": config.get("path", ""),
-        "tls": config.get("tls", "tls"),
-        "sni": config.get("sni", "")
+def v198(v133):
+    v413 = {
+        "v406": "2",
+        "v295": v133.v199("v295", "v439"),
+        "v79": v133.v199("v79", ""),
+        "v284": str(v133.v199("v284", "443")), 
+        "v215": v133.v199("v215", ""),
+        "v84": str(v133.v199("v84", "0")), 
+        "v265": v133.v199("v265", "v422"),
+        "v386": v133.v199("v386", "v268"),
+        "v208": v133.v199("v208", ""),
+        "v278": v133.v199("v278", ""),
+        "v378": v133.v199("v378", "v378"),
+        "v346": v133.v199("v346", "")
     }
-    vmess_str = json.dumps(vmess_obj, sort_keys=True) # sort_keys确保一致性
-    vmess_b64 = base64.b64encode(vmess_str.encode('utf-8')).decode('utf-8').rstrip("=")
-    return f"vmess://{vmess_b64}"
-
-# 生成链接
-# 生成链接
-# 生成链接
-def generate_links(domain, port_vm_ws, uuid_str):
-    write_debug_log(f"生成链接: domain={domain}, port_vm_ws={port_vm_ws}, uuid_str={uuid_str}")
-
-    ws_path = f"/{uuid_str[:8]}-vm" # 使用UUID前8位作为路径一部分，增加一点变化性
-    ws_path_full = f"{ws_path}?ed=2048"
-    write_debug_log(f"WebSocket路径: {ws_path_full}")
-
-    hostname = socket.gethostname()[:10] # 限制主机名长度
-    all_links = []
-    link_names = []
-    link_configs_for_json_output = [] # 用于未来可能的JSON输出
-
-    # Cloudflare优选IP和端口
-    cf_ips_tls = {
+    v414 = json.v169(v413, v349=True) 
+    v412 = base64.v103(v414.v176('v402-8')).v151('v402-8').v318("=")
+    return v189"v411://{v412}"
+def v197(v161, v286, v405):
+    v420(v189"生成链接: v161={v161}, v286={v286}, v405={v405}")
+    v423 = v189"/{v405[:8]}-v410" 
+    v425 = v189"{v423}?v173=2048"
+    v420(v189"WebSocket路径: {v425}")
+    v209 = socket.v201()[:10] 
+    v85 = []
+    v235 = []
+    v234 = [] 
+    v114 = {
         "104.16.0.0": "443", "104.17.0.0": "8443", "104.18.0.0": "2053",
         "104.19.0.0": "2083", "104.20.0.0": "2087"
     }
-    cf_ips_http = {
+    v113 = {
         "104.21.0.0": "80", "104.22.0.0": "8080", "104.24.0.0": "8880"
     }
-
-    # === TLS节点 ===
-    for ip, port_cf in cf_ips_tls.items():
-        ps_name = f"VMWS-TLS-{hostname}-{ip.split('.')[2]}-{port_cf}"
-        config = {
-            "ps": ps_name, "add": ip, "port": port_cf, "id": uuid_str, "aid": "0",
-            "net": "ws", "type": "none", "host": domain, "path": ws_path_full,
-            "tls": "tls", "sni": domain
+    for v221, v285 in v114.v222():
+        v296 = v189"v59-v48-{v209}-{v221.v350('.')[2]}-{v285}"
+        v133 = {
+            "v295": v296, "v79": v221, "v284": v285, "v215": v405, "v84": "0",
+            "v265": "v422", "v386": "v268", "v208": v161, "v278": v425,
+            "v378": "v378", "v346": v161
         }
-        all_links.append(generate_vmess_link(config))
-        link_names.append(f"TLS-{port_cf}-{ip}")
-        link_configs_for_json_output.append(config)
-
-    # === 非TLS节点 ===
-    for ip, port_cf in cf_ips_http.items():
-        ps_name = f"VMWS-HTTP-{hostname}-{ip.split('.')[2]}-{port_cf}"
-        config = {
-            "ps": ps_name, "add": ip, "port": port_cf, "id": uuid_str, "aid": "0",
-            "net": "ws", "type": "none", "host": domain, "path": ws_path_full,
-            "tls": "" # 非TLS，此项为空
+        v85.v92(v198(v133))
+        v235.v92(v189"v48-{v285}-{v221}")
+        v234.v92(v133)
+    for v221, v285 in v113.v222():
+        v296 = v189"v59-v21-{v209}-{v221.v350('.')[2]}-{v285}"
+        v133 = {
+            "v295": v296, "v79": v221, "v284": v285, "v215": v405, "v84": "0",
+            "v265": "v422", "v386": "v268", "v208": v161, "v278": v425,
+            "v378": "" 
         }
-        all_links.append(generate_vmess_link(config))
-        link_names.append(f"HTTP-{port_cf}-{ip}")
-        link_configs_for_json_output.append(config)
-    
-    # === 直接使用域名和标准端口的节点 ===
-    # TLS Direct
-    direct_tls_config = {
-        "ps": f"VMWS-TLS-{hostname}-Direct-{domain[:15]}-443", 
-        "add": domain, "port": "443", "id": uuid_str, "aid": "0",
-        "net": "ws", "type": "none", "host": domain, "path": ws_path_full,
-        "tls": "tls", "sni": domain
+        v85.v92(v198(v133))
+        v235.v92(v189"v21-{v285}-{v221}")
+        v234.v92(v133)
+    v160 = {
+        "v295": v189"v59-v48-{v209}-v13-{v161[:15]}-443", 
+        "v79": v161, "v284": "443", "v215": v405, "v84": "0",
+        "v265": "v422", "v386": "v268", "v208": v161, "v278": v425,
+        "v378": "v378", "v346": v161
     }
-    all_links.append(generate_vmess_link(direct_tls_config))
-    link_names.append(f"TLS-Direct-{domain}-443")
-    link_configs_for_json_output.append(direct_tls_config)
-
-    # HTTP Direct
-    direct_http_config = {
-        "ps": f"VMWS-HTTP-{hostname}-Direct-{domain[:15]}-80",
-        "add": domain, "port": "80", "id": uuid_str, "aid": "0",
-        "net": "ws", "type": "none", "host": domain, "path": ws_path_full,
-        "tls": ""
+    v85.v92(v198(v160))
+    v235.v92(v189"v48-v13-{v161}-443")
+    v234.v92(v160)
+    v159 = {
+        "v295": v189"v59-v21-{v209}-v13-{v161[:15]}-80",
+        "v79": v161, "v284": "80", "v215": v405, "v84": "0",
+        "v265": "v422", "v386": "v268", "v208": v161, "v278": v425,
+        "v378": ""
     }
-    all_links.append(generate_vmess_link(direct_http_config))
-    link_names.append(f"HTTP-Direct-{domain}-80")
-    link_configs_for_json_output.append(direct_http_config)
-
-    # 保存所有链接到文件
-    (INSTALL_DIR / "allnodes.txt").write_text("\n".join(all_links) + "\n")
-    (INSTALL_DIR / "jh.txt").write_text("\n".join(all_links) + "\n") 
-
-    # 保存域名到文件
-    CUSTOM_DOMAIN_FILE.write_text(domain)
-
-    # 创建LIST_FILE (带颜色) - 这个文件主要用于 status 命令
-    list_content_color_file = [] # 使用不同的变量名以避免混淆
-    list_content_color_file.append("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
-    list_content_color_file.append("\033[36m│                \033[33m✨ ArgoSB 节点信息 ✨                   \033[36m│\033[0m")
-    list_content_color_file.append("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    list_content_color_file.append(f"\033[36m│ \033[32m域名 (Domain): \033[0m{domain}")
-    list_content_color_file.append(f"\033[36m│ \033[32mUUID: \033[0m{uuid_str}")
-    list_content_color_file.append(f"\033[36m│ \033[32m本地Vmess端口 (Local VMess Port): \033[0m{port_vm_ws}")
-    list_content_color_file.append(f"\033[36m│ \033[32mWebSocket路径 (WS Path): \033[0m{ws_path_full}")
-    list_content_color_file.append("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    list_content_color_file.append("\033[36m│ \033[33m所有节点列表 (All Nodes - 详细信息见 status 或 cat):\033[0m")
-    for i, (link, name) in enumerate(zip(all_links, link_names)):
-        list_content_color_file.append(f"\033[36m│ \033[32m{i+1}. {name}:\033[0m")
-        list_content_color_file.append(f"\033[36m│ \033[0m{link}")
-        if i < len(all_links) -1 :
-             list_content_color_file.append("\033[36m│ \033[0m") # 在文件内为了可读性，节点间加空行
-    list_content_color_file.append("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    list_content_color_file.append("\033[36m│ \033[33m使用方法 (Usage):\033[0m")
-    list_content_color_file.append("\033[36m│ \033[32m查看节点: \033[0mpython3 " + os.path.basename(__file__) + " status")
-    list_content_color_file.append("\033[36m│ \033[32m单行节点: \033[0mpython3 " + os.path.basename(__file__) + " cat")
-    list_content_color_file.append("\033[36m│ \033[32m升级脚本: \033[0mpython3 " + os.path.basename(__file__) + " update")
-    list_content_color_file.append("\033[36m│ \033[32m卸载脚本: \033[0mpython3 " + os.path.basename(__file__) + " del")
-    list_content_color_file.append("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
-    LIST_FILE.write_text("\n".join(list_content_color_file) + "\n")
-
-    # ******** 终端输出部分 ********
-
-    # === 第一部分：带框的信息摘要和带框的节点列表 ===
+    v85.v92(v198(v159))
+    v235.v92(v189"v21-v13-{v161}-80")
+    v234.v92(v159)
+    (v22 / "v88.v385").v421("\v262".v224(v85) + "\v262")
+    (v22 / "v223.v385").v421("\v262".v224(v85) + "\v262") 
+    v7.v421(v161)
+    v238 = [] 
+    v238.v92("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
+    v238.v92("\033[36m│                \033[33m✨ v439 目录信息 ✨                   \033[36m│\033[0m")
+    v238.v92("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
+    v238.v92(v189"\033[36m│ \033[32m域名 (v14): \033[0m{v161}")
+    v238.v92(v189"\033[36m│ \033[32mUUID: \033[0m{v405}")
+    v238.v92(v189"\033[36m│ \033[32m本地Vmess端口 (v28 v60 v37): \033[0m{v286}")
+    v238.v92(v189"\033[36m│ \033[32mWebSocket路径 (v63 Path): \033[0m{v425}")
+    v238.v92("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
+    v238.v92("\033[36m│ \033[33m所有目录列表 (v2 v33 - 详细信息见 v355 或 v108):\033[0m")
+    for v214, (v233, v263) in v178(v437(v85, v235)):
+        v238.v92(v189"\033[36m│ \033[32m{v214+1}. {v263}:\033[0m")
+        v238.v92(v189"\033[36m│ \033[0m{v233}")
+        if v214 < len(v85) -1 :
+             v238.v92("\033[36m│ \033[0m") 
+    v238.v92("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
+    v238.v92("\033[36m│ \033[33m使用方法 (v57):\033[0m")
+    v238.v92("\033[36m│ \033[32m查看目录: \033[0mpython3 " + os.v278.v104(__file__) + " v355")
+    v238.v92("\033[36m│ \033[32m单行目录: \033[0mpython3 " + os.v278.v104(__file__) + " v108")
+    v238.v92("\033[36m│ \033[32m升级脚本: \033[0mpython3 " + os.v278.v104(__file__) + " v390")
+    v238.v92("\033[36m│ \033[32m卸载脚本: \033[0mpython3 " + os.v278.v104(__file__) + " del")
+    v238.v92("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
+    v26.v421("\v262".v224(v238) + "\v262")
     print("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
-    print("\033[36m│                \033[33m✨ ArgoSB 安装成功! ✨                    \033[36m│\033[0m")
+    print("\033[36m│                \033[33m✨ v439 安装成功! ✨                    \033[36m│\033[0m")
     print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    print(f"\033[36m│ \033[32m域名 (Domain): \033[0m{domain}")
-    print(f"\033[36m│ \033[32mUUID: \033[0m{uuid_str}")
-    print(f"\033[36m│ \033[32m本地Vmess端口 (Local VMess Port): \033[0m{port_vm_ws}")
-    print(f"\033[36m│ \033[32mWebSocket路径 (WS Path): \033[0m{ws_path_full}")
+    print(v189"\033[36m│ \033[32m域名 (v14): \033[0m{v161}")
+    print(v189"\033[36m│ \033[32mUUID: \033[0m{v405}")
+    print(v189"\033[36m│ \033[32m本地Vmess端口 (v28 v60 v37): \033[0m{v286}")
+    print(v189"\033[36m│ \033[32mWebSocket路径 (v63 Path): \033[0m{v425}")
     print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    print("\033[36m│ \033[33m所有节点链接 (带格式):\033[0m") # 标题
-    
-    # 循环打印所有节点，每个节点带名称和颜色，在框内
-    for i, link in enumerate(all_links):
-        # 为了美观，可以加上颜色和序号/名称
-        print(f"\033[36m│ \033[32m{i+1}. {link_names[i]}:\033[0m") # 带名称
-        print(f"\033[36m│ \033[0m{link}")                      # 链接
-        if i < len(all_links) - 1: # 如果不是最后一个节点，打印一个框内的空行作为分隔
+    print("\033[36m│ \033[33m所有目录链接 (带格式):\033[0m") 
+    for v214, v233 in v178(v85):
+        print(v189"\033[36m│ \033[32m{v214+1}. {v235[v214]}:\033[0m") 
+        print(v189"\033[36m│ \033[0m{v233}")                      
+        if v214 < len(v85) - 1: 
             print("\033[36m│ \033[0m") 
-    
     print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    print(f"\033[36m│ \033[32m详细节点信息及操作指南已保存到: \033[0m{LIST_FILE}")
-    print(f"\033[36m│ \033[32m单行节点列表 (纯链接) 已保存到: \033[0m{INSTALL_DIR / 'allnodes.txt'}")
-    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.path.basename(__file__) + " status\033[32m 查看详细状态和节点\033[0m")
-    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.path.basename(__file__) + " cat\033[32m 查看所有单行节点\033[0m")
-    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.path.basename(__file__) + " del\033[32m 删除所有节点\033[0m")
+    print(v189"\033[36m│ \033[32m详细目录信息及操作指南已保存到: \033[0m{v26}")
+    print(v189"\033[36m│ \033[32m单行目录列表 (纯链接) 已保存到: \033[0m{v22 / 'v88.v385'}")
+    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.v278.v104(__file__) + " v355\033[32m 查看详细状态和目录\033[0m")
+    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.v278.v104(__file__) + " v108\033[32m 查看所有单行目录\033[0m")
+    print("\033[36m│ \033[32m使用 \033[33mpython3 " + os.v278.v104(__file__) + " del\033[32m 删除所有目录\033[0m")
     print("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
-    
-    # === 第二部分：纯单行节点链接 ===
-    print() # 加一个空行，视觉上分隔开两个主要部分
-    print("\033[33m以下为所有节点的纯单行链接 (可直接复制):\033[0m")
-    print("\033[34m--------------------------------------------------------\033[0m") # 分隔线
-
-    # 逐行打印所有节点链接，不带任何额外修饰
-    for link in all_links:
-        print(link)
-    
-    print("\033[34m--------------------------------------------------------\033[0m") # 结束分隔线
-    print() # 末尾再加一个空行
-    
-    write_debug_log(f"链接生成完毕，已保存并按两种格式打印到终端。")
+    print() 
+    print("\033[33m以下为所有目录的纯单行链接 (可直接复制):\033[0m")
+    print("\033[34m--------------------------------------------------------\033[0m") 
+    for v233 in v85:
+        print(v233)
+    print("\033[34m--------------------------------------------------------\033[0m") 
+    print() 
+    v420(v189"链接生成完毕，已保存并按两种格式打印到终端。")
     return True
-
-# 安装过程
-def install(args):
-    if not INSTALL_DIR.exists():
-        INSTALL_DIR.mkdir(parents=True, exist_ok=True)
-    os.chdir(INSTALL_DIR)
-    write_debug_log("开始安装过程")
-
-    # --- 获取配置值 ---
-    # 用户名
-    user_name = args.user or os.environ.get("user") or USER_NAME
-    if not user_name:
-        user_name = input("请输入用户名（用于上传文件名）: ").strip()
-        if not user_name:
+def v219(v94):
+    if not v22.v183():
+        v22.v257(v275=True, v182=True)
+    os.v120(v22)
+    v420("开始安装过程")
+    v399 = v94.v398 or os.v179.v199("v398") or v55
+    if not v399:
+        v399 = input("请输入用户名（用于上传文件名）: ").v359()
+        if not v399:
             print("用户名不能为空！")
             sys.exit(1)
-    print(f"使用用户名: {user_name}")
-    write_debug_log(f"User: {user_name}")
-    # UUID
-    uuid_str = args.uuid or os.environ.get("uuid") or UUID
-    if not uuid_str:
-        uuid_input = input("请输入自定义UUID (例如: 25bd7521-eed2-45a1-a50a-97e432552aca, 留空则随机生成): ").strip()
-        uuid_str = uuid_input or str(uuid.uuid4())
-    print(f"使用 UUID: {uuid_str}")
-    write_debug_log(f"UUID: {uuid_str}")
-    # Vmess Port (vmpt)
-    port_vm_ws_str = str(args.vmpt) if args.vmpt else os.environ.get("vmpt") or str(PORT)
-    if not port_vm_ws_str or port_vm_ws_str == "0":
-        port_vm_ws_str = input(f"请输入自定义Vmess端口 (例如: 49999, 10000-65535, 留空则随机生成): ").strip()
-    if port_vm_ws_str:
+    print(v189"使用用户名: {v399}")
+    v420(v189"v58: {v399}")
+    v405 = v94.uuid or os.v179.v199("uuid") or v56
+    if not v405:
+        v404 = input("请输入自定义UUID (例如: 25bd7521-v175-45a1-v75-97e432552aca, 留空则随机生成): ").v359()
+        v405 = v404 or str(uuid.v403())
+    print(v189"使用 v56: {v405}")
+    v420(v189"v56: {v405}")
+    v287 = str(v94.v415) if v94.v415 else os.v179.v199("v415") or str(v36)
+    if not v287 or v287 == "0":
+        v287 = input(v189"请输入自定义Vmess端口 (例如: 49999, 10000-65535, 留空则随机生成): ").v359()
+    if v287:
         try:
-            port_vm_ws = int(port_vm_ws_str)
-            if not (10000 <= port_vm_ws <= 65535):
+            v286 = int(v287)
+            if not (10000 <= v286 <= 65535):
                 print("端口号无效，将使用随机端口。")
-                port_vm_ws = random.randint(10000, 65535)
-        except ValueError:
+                v286 = v302.v301(10000, 65535)
+        except v61:
             print("端口输入非数字，将使用随机端口。")
-            port_vm_ws = random.randint(10000, 65535)
+            v286 = v302.v301(10000, 65535)
     else:
-        port_vm_ws = random.randint(10000, 65535)
-    print(f"使用 Vmess 本地端口: {port_vm_ws}")
-    write_debug_log(f"Vmess Port: {port_vm_ws}")
-    # Argo Tunnel Token (agk)
-    argo_token = args.agk or os.environ.get("agk") or CF_TOKEN
-    if not argo_token:
-        argo_token_input = input("请输入 Argo Tunnel Token (AGK) (例如: eyJhIjo...Ifs9, 若使用Cloudflare Zero Trust隧道请输入, 留空则使用临时隧道): ").strip()
-        argo_token = argo_token_input or None # None if empty
-    if argo_token:
-        print(f"使用 Argo Tunnel Token: ******{argo_token[-6:]}") # 仅显示末尾几位
-        write_debug_log(f"Argo Token: Present (not logged for security)")
+        v286 = v302.v301(10000, 65535)
+    print(v189"使用 v62 本地端口: {v286}")
+    v420(v189"v62 v37: {v286}")
+    v441 = v94.v82 or os.v179.v199("v82") or v49
+    if not v441:
+        v442 = input("请输入 v438 v51 v50 (v0) (例如: v187...v23, 若使用Cloudflare v73 Trust隧道请输入, 留空则使用临时隧道): ").v359()
+        v441 = v442 or None 
+    if v441:
+        print(v189"使用 v438 v51 v50: ******{v441[-6:]}") 
+        v420(v189"v438 v50: v38 (not v245 for v339)")
     else:
-        print("未提供 Argo Tunnel Token，将使用临时隧道 (Quick Tunnel)。")
-        write_debug_log("Argo Token: Not provided, using Quick Tunnel.")
-    # Custom Domain (agn)
-    custom_domain = args.agn or os.environ.get("agn") or DOMAIN
-    if not custom_domain:
-        domain_prompt = "请输入自定义域名 (例如: test.zmkk.fun"
-        if argo_token:
-            domain_prompt += ", 必须是与Argo Token关联的域名"
+        print("未提供 v438 v51 v50，将使用临时隧道 (v41 v51)。")
+        v420("v438 v50: v34 v293, v401 v41 v51.")
+    v146 = v94.v83 or os.v179.v199("v83") or v12
+    if not v146:
+        v162 = "请输入自定义域名 (例如: v374.v443.v196"
+        if v441:
+            v162 += ", 必须是与zmk Token关联的域名"
         else:
-            domain_prompt += ", 或留空以自动获取 trycloudflare.com 域名"
-        domain_prompt += "): "
-        custom_domain_input = input(domain_prompt).strip()
-        custom_domain = custom_domain_input or None
-    if custom_domain:
-        print(f"使用自定义域名: {custom_domain}")
-        write_debug_log(f"Custom Domain (agn): {custom_domain}")
-    elif argo_token: # 如果用了token，必须提供域名
-        print("\033[31m错误: 使用 Argo Tunnel Token 时必须提供自定义域名 (agn/--domain)。\033[0m")
+            v162 += ", 或留空以自动获取 v383.v132 域名"
+        v162 += "): "
+        v148 = input(v162).v359()
+        v146 = v148 or None
+    if v146:
+        print(v189"使用自定义域名: {v146}")
+        v420(v189"v10 v14 (v83): {v146}")
+    elif v441: 
+        print("\033[31m错误: 使用 v438 v51 v50 时必须提供自定义域名 (v83/--v161)。\033[0m")
         sys.exit(1)
     else:
         print("未提供自定义域名，将尝试在隧道启动后自动获取。")
-        write_debug_log("Custom Domain (agn): Not provided, will attempt auto-detection.")
-    # --- 下载依赖 ---
-    system = platform.system().lower()
-    machine = platform.machine().lower()
-    arch = ""
-    if system == "linux":
-        if "x86_64" in machine or "amd64" in machine: arch = "amd64"
-        elif "aarch64" in machine or "arm64" in machine: arch = "arm64"
-        elif "armv7" in machine: arch = "arm" # cloudflared uses 'arm' for armv7
-        else: arch = "amd64"
+        v420("v10 v14 (v83): v34 v293, v418 v99 v100-v156.")
+    v363 = platform.v363().v246()
+    v249 = platform.v249().v246()
+    v93 = ""
+    if v363 == "v237":
+        if "v428" in v249 or "v90" in v249: v93 = "v90"
+        elif "v77" in v249 or "v97" in v249: v93 = "v97"
+        elif "v98" in v249: v93 = "v96" 
+        else: v93 = "v90"
     else:
-        print(f"不支持的系统类型: {system}")
+        print(v189"不支持的系统类型: {v363}")
         sys.exit(1)
-    write_debug_log(f"检测到系统: {system}, 架构: {machine}, 使用架构标识: {arch}")
-    # sing-box
-    singbox_path = INSTALL_DIR / "sing-box"
-    if not singbox_path.exists():
+    v420(v189"检测到系统: {v363}, 架构: {v249}, 使用架构标识: {v93}")
+    v344 = v22 / "v343-v106"
+    if not v344.v183():
         try:
             print("获取sing-box最新版本号...")
-            version_info = http_get("https://api.github.com/repos/SagerNet/sing-box/releases/latest")
-            sb_version = json.loads(version_info)["tag_name"].lstrip("v") if version_info else "1.9.0-beta.11" # Fallback
-            print(f"sing-box 最新版本: {sb_version}")
-        except Exception as e:
-            sb_version = "1.9.0-beta.11" # Fallback
-            print(f"获取最新版本失败，使用默认版本: {sb_version}，错误: {e}")
-        sb_name = f"sing-box-{sb_version}-linux-{arch}"
-        if arch == "arm": sb_name_actual = f"sing-box-{sb_version}-linux-armv7"
-        else: sb_name_actual = sb_name
-        sb_url = f"https://github.com/SagerNet/sing-box/releases/download/v{sb_version}/{sb_name_actual}.tar.gz"
-        tar_path = INSTALL_DIR / "sing-box.tar.gz"
-        if not download_file(sb_url, tar_path):
-            print("sing-box 下载失败，尝试使用备用地址")
-            sb_url_backup = f"https://github.91chi.fun/https://github.com/SagerNet/sing-box/releases/download/v{sb_version}/{sb_name_actual}.tar.gz"
-            if not download_file(sb_url_backup, tar_path):
-                print("sing-box 备用下载也失败，退出安装")
+            v409 = v212("v213://v91.v202.v132/v309/v46/v343-v106/v307/v228")
+            v329 = json.v241(v409)["v366"].v247("v406") if v409 else "1.9.0-v105.11" 
+            print(v189"v343-v106 最新版本: {v329}")
+        except v17 as v170:
+            v329 = "1.9.0-v105.11" 
+            print(v189"获取最新版本失败，使用默认版本: {v329}，错误: {v170}")
+        v322 = v189"v343-v106-{v329}-v237-{v93}"
+        if v93 == "v96": v323 = v189"v343-v106-{v329}-v237-v98"
+        else: v323 = v322
+        v327 = v189"v213://v202.v132/v46/v343-v106/v307/v164/v406{v329}/{v323}.v367.v204"
+        v368 = v22 / "v343-v106.v367.v204"
+        if not v166(v327, v368):
+            print("v343-v106 下载失败，尝试使用备用地址")
+            v328 = v189"v213://v202.91chi.v196/v213://v202.v132/v46/v343-v106/v307/v164/v406{v329}/{v323}.v367.v204"
+            if not v166(v328, v368):
+                print("v343-v106 备用下载也失败，退出安装")
                 sys.exit(1)
         try:
-            print("正在解压sing-box...")
-            import tarfile
-            with tarfile.open(tar_path, "r:gz") as tar:
-                tar.extractall(path=INSTALL_DIR)
-            extracted_folder_path = INSTALL_DIR / sb_name_actual 
-            if not extracted_folder_path.exists():
-                 extracted_folder_path = INSTALL_DIR / f"sing-box-{sb_version}-linux-{arch}"
-            shutil.move(extracted_folder_path / "sing-box", singbox_path)
-            shutil.rmtree(extracted_folder_path)
-            tar_path.unlink()
-            os.chmod(singbox_path, 0o755)
-        except Exception as e:
-            print(f"解压或移动sing-box失败: {e}")
-            if tar_path.exists(): tar_path.unlink()
+            print("正在解压sing-v106...")
+            import v369
+            with v369.open(v368, "v300:v204") as v367:
+                v367.v185(v278=v22)
+            v186 = v22 / v323 
+            if not v186.v183():
+                 v186 = v22 / v189"v343-v106-{v329}-v237-{v93}"
+            shutil.v259(v186 / "v343-v106", v344)
+            shutil.v317(v186)
+            v368.v389()
+            os.v126(v344, 0o755)
+        except v17 as v170:
+            print(v189"解压或移动sing-box失败: {v170}")
+            if v368.v183(): v368.v389()
             sys.exit(1)
-    # cloudflared
-    cloudflared_path = INSTALL_DIR / "cloudflared"
-    if not cloudflared_path.exists():
-        cf_arch = arch
-        if arch == "armv7": cf_arch = "arm" # cloudflared uses 'arm' for 32-bit arm
-        cf_url = f"https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-{cf_arch}"
-        if not download_binary("cloudflared", cf_url, cloudflared_path):
-            print("cloudflared 下载失败，尝试使用备用地址")
-            cf_url_backup = f"https://github.91chi.fun/https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-{cf_arch}"
-            if not download_binary("cloudflared", cf_url_backup, cloudflared_path):
-                print("cloudflared 备用下载也失败，退出安装")
+    v131 = v22 / "v130"
+    if not v131.v183():
+        v110 = v93
+        if v93 == "v98": v110 = "v96" 
+        v118 = v189"v213://v202.v132/v129/v130/v307/v228/v164/v130-v237-{v110}"
+        if not v165("v130", v118, v131):
+            print("v130 下载失败，尝试使用备用地址")
+            v119 = v189"v213://v202.91chi.v196/v213://v202.v132/v129/v130/v307/v228/v164/v130-v237-{v110}"
+            if not v165("v130", v119, v131):
+                print("v130 备用下载也失败，退出安装")
                 sys.exit(1)
-    # --- 配置和启动 ---
-    config_data = {
-        "user_name": user_name,
-        "uuid_str": uuid_str,
-        "port_vm_ws": port_vm_ws,
-        "argo_token": argo_token, # Will be None if not provided
-        "custom_domain_agn": custom_domain, # Will be None if not provided
-        "install_date": datetime.now().strftime('%Y%m%d%H%M')
+    v134 = {
+        "v399": v399,
+        "v405": v405,
+        "v286": v286,
+        "v441": v441, 
+        "v147": v146, 
+        "v220": datetime.v269().v358('%v68%v248%v149%v20%v29')
     }
-    with open(CONFIG_FILE, 'w') as f:
-        json.dump(config_data, f, indent=2)
-    write_debug_log(f"生成配置文件: {CONFIG_FILE} with data: {config_data}")
-    create_sing_box_config(port_vm_ws, uuid_str)
-    create_startup_script() # Now reads from config for token
-    setup_autostart()
-    start_services()
-    final_domain = custom_domain
-    if not argo_token and not custom_domain: # Quick tunnel and no pre-set domain
+    with open(v6, 'v416') as v189:
+        json.v168(v134, v189, v217=2)
+    v420(v189"生成配置文件: {v6} with v150: {v134}")
+    v139(v286, v405)
+    v140() 
+    v340()
+    v354()
+    v194 = v146
+    if not v441 and not v146: 
         print("正在等待临时隧道域名生成...")
-        final_domain = get_tunnel_domain()
-        if not final_domain:
-            print("\033[31m无法获取tunnel域名。请检查argo.log或尝试手动指定域名。\033[0m")
-            print("  方法1: python3 " + os.path.basename(__file__) + " --agn your-domain.com")
-            print("  方法2: export agn=your-domain.com && python3 " + os.path.basename(__file__))
+        v194 = v200()
+        if not v194:
+            print("\033[31m无法获取tunnel域名。请检查zmk.log或尝试手动指定域名。\033[0m")
+            print("  方法1: v298 " + os.v278.v104(__file__) + " --v83 v433-v161.v132")
+            print("  方法2: v184 v83=v433-v161.v132 && v298 " + os.v278.v104(__file__))
             sys.exit(1)
-    elif argo_token and not custom_domain: # Should have exited earlier, but as a safeguard
-        print("\033[31m错误: 使用Argo Token时，自定义域名是必需的但未提供。\033[0m")
+    elif v441 and not v146: 
+        print("\033[31m错误: 使用zmk Token时，自定义域名是必需的但未提供。\033[0m")
         sys.exit(1)
-    if final_domain:
-        # 生成所有节点链接
-        all_links = []
-        ws_path = f"/{uuid_str[:8]}-vm"
-        ws_path_full = f"{ws_path}?ed=2048"
-        hostname = socket.gethostname()[:10]
-        cf_ips_tls = {
+    if v194:
+        v85 = []
+        v423 = v189"/{v405[:8]}-v410"
+        v425 = v189"{v423}?v173=2048"
+        v209 = socket.v201()[:10]
+        v114 = {
             "104.16.0.0": "443", "104.17.0.0": "8443", "104.18.0.0": "2053",
             "104.19.0.0": "2083", "104.20.0.0": "2087"
         }
-        cf_ips_http = {
+        v113 = {
             "104.21.0.0": "80", "104.22.0.0": "8080", "104.24.0.0": "8880"
         }
-        for ip, port_cf in cf_ips_tls.items():
-            config = {
-                "ps": f"VMWS-TLS-{hostname}-{ip.split('.')[2]}-{port_cf}", "add": ip, "port": port_cf, "id": uuid_str, "aid": "0",
-                "net": "ws", "type": "none", "host": final_domain, "path": ws_path_full,
-                "tls": "tls", "sni": final_domain
+        for v221, v285 in v114.v222():
+            v133 = {
+                "v295": v189"v59-v48-{v209}-{v221.v350('.')[2]}-{v285}", "v79": v221, "v284": v285, "v215": v405, "v84": "0",
+                "v265": "v422", "v386": "v268", "v208": v194, "v278": v425,
+                "v378": "v378", "v346": v194
             }
-            all_links.append(generate_vmess_link(config))
-        for ip, port_cf in cf_ips_http.items():
-            config = {
-                "ps": f"VMWS-HTTP-{hostname}-{ip.split('.')[2]}-{port_cf}", "add": ip, "port": port_cf, "id": uuid_str, "aid": "0",
-                "net": "ws", "type": "none", "host": final_domain, "path": ws_path_full,
-                "tls": ""
+            v85.v92(v198(v133))
+        for v221, v285 in v113.v222():
+            v133 = {
+                "v295": v189"v59-v21-{v209}-{v221.v350('.')[2]}-{v285}", "v79": v221, "v284": v285, "v215": v405, "v84": "0",
+                "v265": "v422", "v386": "v268", "v208": v194, "v278": v425,
+                "v378": ""
             }
-            all_links.append(generate_vmess_link(config))
-        direct_tls_config = {
-            "ps": f"VMWS-TLS-{hostname}-Direct-{final_domain[:15]}-443",
-            "add": final_domain, "port": "443", "id": uuid_str, "aid": "0",
-            "net": "ws", "type": "none", "host": final_domain, "path": ws_path_full,
-            "tls": "tls", "sni": final_domain
+            v85.v92(v198(v133))
+        v160 = {
+            "v295": v189"v59-v48-{v209}-v13-{v194[:15]}-443",
+            "v79": v194, "v284": "443", "v215": v405, "v84": "0",
+            "v265": "v422", "v386": "v268", "v208": v194, "v278": v425,
+            "v378": "v378", "v346": v194
         }
-        all_links.append(generate_vmess_link(direct_tls_config))
-        direct_http_config = {
-            "ps": f"VMWS-HTTP-{hostname}-Direct-{final_domain[:15]}-80",
-            "add": final_domain, "port": "80", "id": uuid_str, "aid": "0",
-            "net": "ws", "type": "none", "host": final_domain, "path": ws_path_full,
-            "tls": ""
+        v85.v92(v198(v160))
+        v159 = {
+            "v295": v189"v59-v21-{v209}-v13-{v194[:15]}-80",
+            "v79": v194, "v284": "80", "v215": v405, "v84": "0",
+            "v265": "v422", "v386": "v268", "v208": v194, "v278": v425,
+            "v378": ""
         }
-        all_links.append(generate_vmess_link(direct_http_config))
-        # 上传到API
-        all_links_b64 = base64.b64encode("\n".join(all_links).encode()).decode()
-        upload_to_api(all_links_b64, user_name)
-        # 继续原有的节点文件保存和打印逻辑
-        generate_links(final_domain, port_vm_ws, uuid_str)
+        v85.v92(v198(v159))
+        v86 = base64.v103("\v262".v224(v85).v176()).v151()
+        v393(v86, v399)
+        v197(v194, v286, v405)
     else:
         print("\033[31m最终域名未能确定，无法生成链接。\033[0m")
         sys.exit(1)
-
-# 设置开机自启动
-def setup_autostart():
+def v340():
     try:
-        crontab_list = subprocess.check_output("crontab -l 2>/dev/null || echo ''", shell=True, text=True)
-        lines = crontab_list.splitlines()
-        
-        script_name_sb = (INSTALL_DIR / "start_sb.sh").resolve()
-        script_name_cf = (INSTALL_DIR / "start_cf.sh").resolve()
-
-        filtered_lines = [
-            line for line in lines 
-            if str(script_name_sb) not in line and str(script_name_cf) not in line and line.strip()
+        v143 = subprocess.v124("v141 -v227 2>/v157/v270 || v172 ''", v342=True, v375=True)
+        v232 = v143.v351()
+        v336 = (v22 / "v353.v341").v313()
+        v334 = (v22 / "v352.v341").v313()
+        v193 = [
+            v231 for v231 in v232 
+            if str(v336) not in v231 and str(v334) not in v231 and v231.v359()
         ]
-        
-        filtered_lines.append(f"@reboot {script_name_sb} >/dev/null 2>&1")
-        filtered_lines.append(f"@reboot {script_name_cf} >/dev/null 2>&1")
-        
-        new_crontab = "\n".join(filtered_lines).strip() + "\n"
-        
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_crontab_file:
-            tmp_crontab_file.write(new_crontab)
-            crontab_file_path = tmp_crontab_file.name
-        
-        subprocess.run(f"crontab {crontab_file_path}", shell=True, check=True)
-        os.unlink(crontab_file_path)
-            
-        write_debug_log("已设置开机自启动")
+        v193.v92(v189"@v306 {v336} >/v157/v270 2>&1")
+        v193.v92(v189"@v306 {v334} >/v157/v270 2>&1")
+        v266 = "\v262".v224(v193).v359() + "\v262"
+        with v373.v32(v258='v416', v153=False) as v379:
+            v379.v419(v266)
+            v142 = v379.v263
+        subprocess.v319(v189"v141 {v142}", v342=True, v121=True)
+        os.v389(v142)
+        v420("已设置开机自启动")
         print("开机自启动设置成功。")
-    except Exception as e:
-        write_debug_log(f"设置开机自启动失败: {e}")
-        print(f"设置开机自启动失败: {e}。但不影响正常使用。")
-
-# 卸载脚本
-def uninstall():
+    except v17 as v170:
+        v420(v189"设置开机自启动失败: {v170}")
+        print(v189"设置开机自启动失败: {v170}。但不影响正常使用。")
+def v388():
     print("开始卸载服务...")
-    
-    # 停止服务
-    for pid_file_path in [SB_PID_FILE, ARGO_PID_FILE]:
-        if pid_file_path.exists():
+    for v281 in [v44, v440]:
+        if v281.v183():
             try:
-                pid = pid_file_path.read_text().strip()
-                if pid:
-                    print(f"正在停止进程 PID: {pid} (来自 {pid_file_path.name})")
-                    os.system(f"kill {pid} 2>/dev/null || true")
-            except Exception as e:
-                print(f"停止进程时出错 ({pid_file_path.name}): {e}")
-    time.sleep(1) # 给进程一点时间退出
-
-    # 强制停止 (如果还在运行)
-    print("尝试强制终止可能残留的 sing-box 和 cloudflared 进程...")
-    os.system("pkill -9 -f 'sing-box run -c sb.json' 2>/dev/null || true")
-    os.system("pkill -9 -f 'cloudflared tunnel --url' 2>/dev/null || true") # Quick Tunnel
-    os.system("pkill -9 -f 'cloudflared tunnel --no-autoupdate run --token' 2>/dev/null || true") # Named Tunnel
-
-    # 移除crontab项
+                v280 = v281.v305().v359()
+                if v280:
+                    print(v189"正在停止进程 v35: {v280} (来自 {v281.v263})")
+                    os.v363(v189"v225 {v280} 2>/v157/v270 || v382")
+            except v17 as v170:
+                print(v189"停止进程时出错 ({v281.v263}): {v170}")
+    time.v345(1) 
+    print("尝试强制终止可能残留的 v343-v106 和 v130 进程...")
+    os.v363("v283 -9 -v189 'v343-v106 v319 -v107 v320.json' 2>/v157/v270 || v382")
+    os.v363("v283 -9 -v189 'v130 v384 --v394' 2>/v157/v270 || v382") 
+    os.v363("v283 -9 -v189 'v130 v384 --v267-v101 v319 --v380' 2>/v157/v270 || v382") 
     try:
-        crontab_list = subprocess.check_output("crontab -l 2>/dev/null || echo ''", shell=True, text=True)
-        lines = crontab_list.splitlines()
-        
-        script_name_sb_str = str((INSTALL_DIR / "start_sb.sh").resolve())
-        script_name_cf_str = str((INSTALL_DIR / "start_cf.sh").resolve())
-
-        filtered_lines = [
-            line for line in lines
-            if script_name_sb_str not in line and script_name_cf_str not in line and line.strip()
+        v143 = subprocess.v124("v141 -v227 2>/v157/v270 || v172 ''", v342=True, v375=True)
+        v232 = v143.v351()
+        v337 = str((v22 / "v353.v341").v313())
+        v335 = str((v22 / "v352.v341").v313())
+        v193 = [
+            v231 for v231 in v232
+            if v337 not in v231 and v335 not in v231 and v231.v359()
         ]
-        
-        new_crontab = "\n".join(filtered_lines).strip()
-        
-        if not new_crontab: # 如果清空了所有条目
-            subprocess.run("crontab -r", shell=True, check=False) # check=False as it might error if no crontab exists
-            print("Crontab 清空 (或原有条目已移除)。")
+        v266 = "\v262".v224(v193).v359()
+        if not v266: 
+            subprocess.v319("v141 -v300", v342=True, v121=False) 
+            print("v9 清空 (或原有条目已移除)。")
         else:
-            with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_crontab_file:
-                tmp_crontab_file.write(new_crontab + "\n")
-                crontab_file_path = tmp_crontab_file.name
-            subprocess.run(f"crontab {crontab_file_path}", shell=True, check=True)
-            os.unlink(crontab_file_path)
-            print("Crontab 自启动项已移除。")
-    except Exception as e:
-        print(f"移除crontab项时出错: {e}")
-
-    # 删除安装目录
-    if INSTALL_DIR.exists():
+            with v373.v32(v258='v416', v153=False) as v379:
+                v379.v419(v266 + "\v262")
+                v142 = v379.v263
+            subprocess.v319(v189"v141 {v142}", v342=True, v121=True)
+            os.v389(v142)
+            print("v9 自启动项已移除。")
+    except v17 as v170:
+        print(v189"移除crontab项时出错: {v170}")
+    if v22.v183():
         try:
-            shutil.rmtree(INSTALL_DIR)
-            print(f"安装目录 {INSTALL_DIR} 已删除。")
-        except Exception as e:
-            print(f"无法完全删除安装目录 {INSTALL_DIR}: {e}。请手动删除。")
-            
+            shutil.v317(v22)
+            print(v189"安装目录 {v22} 已删除。")
+        except v17 as v170:
+            print(v189"无法完全删除安装目录 {v22}: {v170}。请手动删除。")
     print("卸载完成。")
     sys.exit(0)
-
-# 升级脚本
-def upgrade():
-    script_url = "https://raw.githubusercontent.com/yonggekkk/argosb/main/agsb_custom_domain.py" # 假设这是最新脚本的地址
-    print(f"正在从 {script_url} 下载最新脚本...")
-    try:
-        script_content = http_get(script_url)
-        if script_content:
-            script_path = Path(__file__).resolve()
-            backup_path = script_path.with_suffix(script_path.suffix + ".bak")
-            shutil.copyfile(script_path, backup_path) #备份旧脚本
-            print(f"旧脚本已备份到: {backup_path}")
-            
-            with open(script_path, 'w', encoding='utf-8') as f:
-                f.write(script_content)
-            os.chmod(script_path, 0o755)
-            print("\033[32m脚本升级完成！请重新运行脚本。\033[0m")
-        else:
-            print("\033[31m升级失败，无法下载最新脚本。\033[0m")
-    except Exception as e:
-        print(f"\033[31m升级过程中出错: {e}\033[0m")
-    sys.exit(0)
-
-# 检查脚本运行状态
-def check_status():
-    sb_running = SB_PID_FILE.exists() and os.path.exists(f"/proc/{SB_PID_FILE.read_text().strip()}")
-    cf_running = ARGO_PID_FILE.exists() and os.path.exists(f"/proc/{ARGO_PID_FILE.read_text().strip()}")
-
-    if sb_running and cf_running and LIST_FILE.exists():
+def v125():
+    v324 = v44.v183() and os.v278.v183(v189"/v291/{v44.v305().v359()}")
+    v115 = v440.v183() and os.v278.v183(v189"/v291/{v440.v305().v359()}")
+    if v324 and v115 and v26.v183():
         print("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
-        print("\033[36m│                \033[33m✨ ArgoSB 运行状态 ✨                    \033[36m│\033[0m")
+        print("\033[36m│                \033[33m✨ v439 运行状态 ✨                    \033[36m│\033[0m")
         print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-        print("\033[36m│ \033[32m服务状态: \033[33m正在运行 (sing-box & cloudflared)\033[0m")
-        
-        domain_to_display = "未知"
-        if CUSTOM_DOMAIN_FILE.exists():
-            domain_to_display = CUSTOM_DOMAIN_FILE.read_text().strip()
-            print(f"\033[36m│ \033[32m当前使用域名: \033[0m{domain_to_display}")
-        elif CONFIG_FILE.exists(): # Fallback to config if custom_domain.txt not there
-            config = json.loads(CONFIG_FILE.read_text())
-            if config.get("custom_domain_agn"):
-                 domain_to_display = config["custom_domain_agn"]
-                 print(f"\033[36m│ \033[32m配置域名 (agn): \033[0m{domain_to_display}")
-            elif not config.get("argo_token") and LOG_FILE.exists(): # Quick tunnel, try log
-                log_content = LOG_FILE.read_text()
-                match = re.search(r'https://([a-zA-Z0-9.-]+\.trycloudflare\.com)', log_content)
-                if match:
-                    domain_to_display = match.group(1)
-                    print(f"\033[36m│ \033[32mArgo临时域名: \033[0m{domain_to_display}")
-        
-        if domain_to_display == "未知":
+        print("\033[36m│ \033[32m服务状态: \033[33m正在运行 (v343-v106 & v130)\033[0m")
+        v163 = "未知"
+        if v7.v183():
+            v163 = v7.v305().v359()
+            print(v189"\033[36m│ \033[32m当前使用域名: \033[0m{v163}")
+        elif v6.v183(): 
+            v133 = json.v241(v6.v305())
+            if v133.v199("v147"):
+                 v163 = v133["v147"]
+                 print(v189"\033[36m│ \033[32m配置域名 (v83): \033[0m{v163}")
+            elif not v133.v199("v441") and v27.v183(): 
+                v244 = v27.v305()
+                v251 = re.v338(v300'v213://([v74-v435-v72-9.-]+\.v383\.v132)', v244)
+                if v251:
+                    v163 = v251.v203(1)
+                    print(v189"\033[36m│ \033[32mzmk临时域名: \033[0m{v163}")
+        if v163 == "未知":
              print("\033[36m│ \033[31m域名信息未找到或未生成，请检查配置或日志。\033[0m")
-
         print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-        if (INSTALL_DIR / "allnodes.txt").exists():
-            print("\033[36m│ \033[33m节点链接 (部分示例):\033[0m")
-            with open(INSTALL_DIR / "allnodes.txt", 'r') as f:
-                links = f.read().splitlines()
-                for i in range(min(3, len(links))):
-                    print(f"\033[36m│ \033[0m{links[i][:70]}...") # 打印部分链接
-            if len(links) > 3:
-                print("\033[36m│ \033[32m... 更多节点请使用 'cat' 命令查看 ...\033[0m")
+        if (v22 / "v88.v385").v183():
+            print("\033[36m│ \033[33m目录链接 (部分示例):\033[0m")
+            with open(v22 / "v88.v385", 'v300') as v189:
+                v236 = v189.v304().v351()
+                for v214 in range(v256(3, len(v236))):
+                    print(v189"\033[36m│ \033[0m{v236[v214][:70]}...") 
+            if len(v236) > 3:
+                print("\033[36m│ \033[32m... 更多目录请使用 'v108' 命令查看 ...\033[0m")
         print("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
         return True
-    
-    status_msgs = []
-    if not sb_running: status_msgs.append("sing-box 未运行")
-    if not cf_running: status_msgs.append("cloudflared 未运行")
-    if not LIST_FILE.exists(): status_msgs.append("节点信息文件未生成")
-
+    v357 = []
+    if not v324: v357.v92("v343-v106 未运行")
+    if not v115: v357.v92("v130 未运行")
+    if not v26.v183(): v357.v92("目录信息文件未生成")
     print("\033[36m╭───────────────────────────────────────────────────────────────╮\033[0m")
-    print("\033[36m│                \033[33m✨ ArgoSB 运行状态 ✨                    \033[36m│\033[0m")
+    print("\033[36m│                \033[33m✨ v439 运行状态 ✨                    \033[36m│\033[0m")
     print("\033[36m├───────────────────────────────────────────────────────────────┤\033[0m")
-    if status_msgs:
-        print("\033[36m│ \033[31mArgoSB 服务异常:\033[0m")
-        for msg in status_msgs:
-            print(f"\033[36m│   - {msg}\033[0m")
-        print("\033[36m│ \033[32m尝试重新安装或检查日志: \033[33mpython3 " + os.path.basename(__file__) + " install\033[0m")
-    else: # Should be caught by first if, but as a fallback
-         print("\033[36m│ \033[31mArgoSB 未运行或配置不完整。\033[0m")
-         print("\033[36m│ \033[32m运行 \033[33mpython3 " + os.path.basename(__file__) + "\033[32m 开始安装。\033[0m")
+    if v357:
+        print("\033[36m│ \033[31mzmkSB 服务异常:\033[0m")
+        for v260 in v357:
+            print(v189"\033[36m│   - {v260}\033[0m")
+        print("\033[36m│ \033[32m尝试重新安装或检查日志: \033[33mpython3 " + os.v278.v104(__file__) + " v219\033[0m")
+    else: 
+         print("\033[36m│ \033[31mzmkSB 未运行或配置不完整。\033[0m")
+         print("\033[36m│ \033[32m运行 \033[33mpython3 " + os.v278.v104(__file__) + "\033[32m 开始安装。\033[0m")
     print("\033[36m╰───────────────────────────────────────────────────────────────╯\033[0m")
     return False
-
-
-# 创建sing-box配置
-def create_sing_box_config(port_vm_ws, uuid_str):
-    write_debug_log(f"创建sing-box配置，端口: {port_vm_ws}, UUID: {uuid_str}")
-    ws_path = f"/{uuid_str[:8]}-vm" # 和 generate_links 中的路径保持一致
-
-    config_dict = {
-        "log": {"level": "info", "timestamp": True},
-        "inbounds": [{
-            "type": "vmess", "tag": "vmess-in", "listen": "127.0.0.1",
-            "listen_port": port_vm_ws, "tcp_fast_open": True, "sniff": True,
-            "sniff_override_destination": True, "proxy_protocol": False, # No proxy protocol from local cloudflared
-            "users": [{"uuid": uuid_str, "alterId": 0}], # alterId 0 is common now
-            "transport": {
-                "type": "ws", "path": ws_path,
-                "max_early_data": 2048, "early_data_header_name": "Sec-WebSocket-Protocol"
+def v139(v286, v405):
+    v420(v189"创建sing-box配置，端口: {v286}, v56: {v405}")
+    v423 = v189"/{v405[:8]}-v410" 
+    v135 = {
+        "v243": {"v229": "v218", "v377": True},
+        "v216": [{
+            "v386": "v411", "v365": "v411-in", "v239": "127.0.0.1",
+            "v240": v286, "v371": True, "v347": True,
+            "v348": True, "v294": False, 
+            "v400": [{"uuid": v405, "v89": 0}], 
+            "v381": {
+                "v386": "v422", "v278": v423,
+                "v252": 2048, "v171": "v47-v64-v39"
             }
         }],
-        "outbounds": [{"type": "direct", "tag": "direct"}]
+        "v272": [{"v386": "v158", "v365": "v158"}]
     }
-    sb_config_file = INSTALL_DIR / "sb.json"
-    with open(sb_config_file, 'w') as f:
-        json.dump(config_dict, f, indent=2)
-    write_debug_log(f"sing-box配置已写入文件: {sb_config_file}")
+    v321 = v22 / "v320.json"
+    with open(v321, 'v416') as v189:
+        json.v168(v135, v189, v217=2)
+    v420(v189"v343-box配置已写入文件: {v321}")
     return True
-
-# 创建启动脚本
-def create_startup_script():
-    if not CONFIG_FILE.exists():
-        print("配置文件 config.json 不存在，无法创建启动脚本。请先执行安装。")
+def v140():
+    if not v6.v183():
+        print("配置文件 v133.json 不存在，无法创建启动脚本。请先执行安装。")
         return
-
-    config = json.loads(CONFIG_FILE.read_text())
-    port_vm_ws = config["port_vm_ws"]
-    uuid_str = config["uuid_str"]
-    argo_token = config.get("argo_token") # Safely get token, might be None
-    
-    # sing-box启动脚本
-    sb_start_script_path = INSTALL_DIR / "start_sb.sh"
-    sb_start_content = f'''#!/bin/bash
-cd {INSTALL_DIR.resolve()}
-./sing-box run -c sb.json > sb.log 2>&1 &
-echo $! > {SB_PID_FILE.name}
+    v133 = json.v241(v6.v305())
+    v286 = v133["v286"]
+    v405 = v133["v405"]
+    v441 = v133.v199("v441") 
+    v326 = v22 / "v353.v341"
+    v325 = v189'''
+v109 {v22.v313()}
+./v343-v106 v319 -v107 v320.json > v320.v243 2>&1 &
+v172 $! > {v44.v263}
 '''
-    sb_start_script_path.write_text(sb_start_content)
-    os.chmod(sb_start_script_path, 0o755)
-
-    # cloudflared启动脚本
-    cf_start_script_path = INSTALL_DIR / "start_cf.sh"
-    cf_cmd_base = f"./cloudflared tunnel --no-autoupdate"
-    # 使用与 sing-box 配置中一致的路径，确保 ?ed=2048 在这里也加上
-    ws_path_for_url = f"/{uuid_str[:8]}-vm?ed=2048" 
-
-    if argo_token: # 使用命名隧道
-        cf_cmd = f"{cf_cmd_base} run --token {argo_token}"
-    else: # 使用临时隧道
-        cf_cmd = f"{cf_cmd_base} --url http://localhost:{port_vm_ws}{ws_path_for_url} --edge-ip-version auto --protocol http2"
-    
-    cf_start_content = f'''#!/bin/bash
-cd {INSTALL_DIR.resolve()}
-{cf_cmd} > {LOG_FILE.name} 2>&1 &
-echo $! > {ARGO_PID_FILE.name}
+    v326.v421(v325)
+    os.v126(v326, 0o755)
+    v117 = v22 / "v352.v341"
+    v112 = v189"./v130 v384 --v267-v101"
+    v424 = v189"/{v405[:8]}-v410?v173=2048" 
+    if v441: 
+        v111 = v189"{v112} v319 --v380 {v441}"
+    else: 
+        v111 = v189"{v112} --v394 v210://v242:{v286}{v424} --v174-v221-v408 v100 --v292 v211"
+    v116 = v189'''
+v109 {v22.v313()}
+{v111} > {v27.v263} 2>&1 &
+v172 $! > {v440.v263}
 '''
-    cf_start_script_path.write_text(cf_start_content)
-    os.chmod(cf_start_script_path, 0o755)
-    
-    write_debug_log("启动脚本已创建/更新。")
-
-# 启动服务
-def start_services():
+    v117.v421(v116)
+    os.v126(v117, 0o755)
+    v420("启动脚本已创建/更新。")
+def v354():
     print("正在启动sing-box服务...")
-    subprocess.run(str(INSTALL_DIR / "start_sb.sh"), shell=True)
-    
+    subprocess.v319(str(v22 / "v353.v341"), v342=True)
     print("正在启动cloudflared服务...")
-    subprocess.run(str(INSTALL_DIR / "start_cf.sh"), shell=True)
-    
+    subprocess.v319(str(v22 / "v352.v341"), v342=True)
     print("等待服务启动 (约5秒)...")
-    time.sleep(5)
-    write_debug_log("服务启动命令已执行。")
-
-# 获取tunnel域名 (仅用于Quick Tunnel)
-def get_tunnel_domain():
-    retry_count = 0
-    max_retries = 15 # 增加重试次数
-    while retry_count < max_retries:
-        if LOG_FILE.exists():
+    time.v345(5)
+    v420("服务启动命令已执行。")
+def v200():
+    v316 = 0
+    v253 = 15 
+    while v316 < v253:
+        if v27.v183():
             try:
-                log_content = LOG_FILE.read_text()
-                match = re.search(r'https://([a-zA-Z0-9.-]+\.trycloudflare\.com)', log_content)
-                if match:
-                    domain = match.group(1)
-                    write_debug_log(f"从日志中提取到临时域名: {domain}")
-                    print(f"获取到临时域名: {domain}")
-                    return domain
-            except Exception as e:
-                write_debug_log(f"读取或解析日志文件 {LOG_FILE} 出错: {e}")
-        
-        retry_count += 1
-        print(f"等待tunnel域名生成... (尝试 {retry_count}/{max_retries}, 检查 {LOG_FILE})")
-        time.sleep(3) # 每次等待3秒
-    
-    write_debug_log("获取tunnel域名超时。")
+                v244 = v27.v305()
+                v251 = re.v338(v300'v213://([v74-v435-v72-9.-]+\.v383\.v132)', v244)
+                if v251:
+                    v161 = v251.v203(1)
+                    v420(v189"从日志中提取到临时域名: {v161}")
+                    print(v189"获取到临时域名: {v161}")
+                    return v161
+            except v17 as v170:
+                v420(v189"读取或解析日志文件 {v27} 出错: {v170}")
+        v316 += 1
+        print(v189"等待tunnel域名生成... (尝试 {v316}/{v253}, 检查 {v27})")
+        time.v345(3) 
+    v420("获取tunnel域名超时。")
     return None
-
-# 上传订阅到API服务器
-UPLOAD_API = "https://file.zmkk.fun/api/upload"  # 文件上传API
-
-def upload_to_api(subscription_content, user_name):
+v53 = "v213://v190.v443.v196/v91/v392"  
+def v393(v360, v399):
     """
-    将订阅内容上传到API服务器，文件名为用户名.txt
-    :param subscription_content: 订阅内容
-    :param user_name: 用户名
+    将订阅内容上传到API服务器，文件名为用户名.v385
+    :v274 v360: 订阅内容
+    :v274 v399: 用户名
     :return: 成功返回True，失败返回False
     """
     try:
-        import requests
-    except ImportError:
+        import v312
+    except v24:
         print("检测到未安装requests库，正在尝试安装...")
         try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
-            import requests
+            subprocess.v122([sys.v181, "-v248", "v282", "v219", "v312"])
+            import v312
             print("requests库安装成功")
-        except Exception as e:
-            print(f"安装requests库失败: {e}")
-            print("请手动执行: pip install requests")
+        except v17 as v170:
+            print(v189"安装requests库失败: {v170}")
+            print("请手动执行: v282 v219 v312")
             return False
     try:
-        write_debug_log("开始上传订阅内容到API服务器")
-        # 文件名直接用用户名
-        file_name = f"{user_name}.txt"
-        temp_file = INSTALL_DIR / file_name
-        # 写入临时文件
+        v420("开始上传订阅内容到API服务器")
+        v191 = v189"{v399}.v385"
+        v372 = v22 / v191
         try:
-            with open(str(temp_file), 'w', encoding='utf-8') as f:
-                f.write(subscription_content)
-        except Exception as e:
-            write_debug_log(f"创建临时文件失败: {e}")
-            print(f"创建临时文件失败: {e}")
+            with open(str(v372), 'v416', v177='v402-8') as v189:
+                v189.v419(v360)
+        except v17 as v170:
+            v420(v189"创建临时文件失败: {v170}")
+            print(v189"创建临时文件失败: {v170}")
             return False
-        # 构建multipart表单数据
         try:
-            files = {
-                'file': (file_name, open(str(temp_file), 'rb'))
+            v192 = {
+                'v190': (v191, open(str(v372), 'v303'))
             }
-            write_debug_log(f"正在上传文件到API: {UPLOAD_API}")
-            response = requests.post(UPLOAD_API, files=files)
-            files['file'][1].close()
-            if os.path.exists(str(temp_file)):
-                os.remove(str(temp_file))
-            if response.status_code == 200:
+            v420(v189"正在上传文件到API: {v53}")
+            v314 = v312.v288(v53, v192=v192)
+            v192['v190'][1].v128()
+            if os.v278.v183(str(v372)):
+                os.v308(str(v372))
+            if v314.v356 == 200:
                 try:
-                    result = response.json()
-                    if result.get('success') or result.get('url'):
-                        url = result.get('url', '')
-                        write_debug_log(f"上传成功，URL: {url}")
-                        print(f"\033[36m│ \033[32m订阅已成功上传，URL: {url}\033[0m")
-                        url_file = INSTALL_DIR / "subscription_url.txt"
-                        with open(str(url_file), 'w') as f:
-                            f.write(url)
+                    v315 = v314.json()
+                    if v315.v199('v362') or v315.v199('v394'):
+                        v394 = v315.v199('v394', '')
+                        v420(v189"上传成功，v54: {v394}")
+                        print(v189"\033[36m│ \033[32m订阅已成功上传，v54: {v394}\033[0m")
+                        v395 = v22 / "v361.v385"
+                        with open(str(v395), 'v416') as v189:
+                            v189.v419(v394)
                         return True
                     else:
-                        write_debug_log(f"API返回错误: {result}")
-                        print(f"API返回错误: {result}")
+                        v420(v189"API返回错误: {v315}")
+                        print(v189"API返回错误: {v315}")
                         return False
-                except Exception as e:
-                    write_debug_log(f"解析API响应失败: {e}")
-                    print(f"解析API响应失败: {e}")
+                except v17 as v170:
+                    v420(v189"解析API响应失败: {v170}")
+                    print(v189"解析API响应失败: {v170}")
                     return False
             else:
-                write_debug_log(f"上传失败，状态码: {response.status_code}")
-                print(f"上传失败，状态码: {response.status_code}")
+                v420(v189"上传失败，状态码: {v314.v356}")
+                print(v189"上传失败，状态码: {v314.v356}")
                 return False
-        except Exception as e:
-            write_debug_log(f"上传过程中出错: {e}")
-            print(f"上传过程中出错: {e}")
-            if os.path.exists(str(temp_file)):
+        except v17 as v170:
+            v420(v189"上传过程中出错: {v170}")
+            print(v189"上传过程中出错: {v170}")
+            if os.v278.v183(str(v372)):
                 try:
-                    os.remove(str(temp_file))
+                    os.v308(str(v372))
                 except:
                     pass
             return False
-    except Exception as e:
-        write_debug_log(f"上传订阅到API服务器失败: {e}")
-        print(f"上传订阅到API服务器失败: {e}")
+    except v17 as v170:
+        v420(v189"上传订阅到API服务器失败: {v170}")
+        print(v189"上传订阅到API服务器失败: {v170}")
         return False
-
-# 主函数
-def main():
-    print_info()
-    args = parse_args()
-
-    if args.action == "install":
-        install(args)
-    elif args.action in ["uninstall", "del"]:
-        uninstall()
-    elif args.action == "update":
-        upgrade()
-    elif args.action == "status":
-        check_status()
-    elif args.action == "cat":
-        all_nodes_path = INSTALL_DIR / "allnodes.txt"
-        if all_nodes_path.exists():
-            print(all_nodes_path.read_text().strip())
+def v250():
+    v289()
+    v94 = v276()
+    if v94.v78 == "v219":
+        v219(v94)
+    elif v94.v78 in ["v388", "del"]:
+        v388()
+    elif v94.v78 == "v390":
+        v391()
+    elif v94.v78 == "v355":
+        v125()
+    elif v94.v78 == "v108":
+        v87 = v22 / "v88.v385"
+        if v87.v183():
+            print(v87.v305().v359())
         else:
-            print(f"\033[31m节点文件 {all_nodes_path} 未找到。请先安装或运行 status。\033[0m")
-    else: # 默认行为，通常是 'install' 或者检查后提示
-        if INSTALL_DIR.exists() and CONFIG_FILE.exists() and SB_PID_FILE.exists() and ARGO_PID_FILE.exists():
-            print("\033[33m检测到ArgoSB可能已安装并正在运行。\033[0m")
-            if check_status():
-                 print("\033[32m如需重新安装，请先执行卸载: python3 " + os.path.basename(__file__) + " del\033[0m")
+            print(v189"\033[31m目录文件 {v87} 未找到。请先安装或运行 v355。\033[0m")
+    else: 
+        if v22.v183() and v6.v183() and v44.v183() and v440.v183():
+            print("\033[33m检测到zmkSB可能已安装并正在运行。\033[0m")
+            if v125():
+                 print("\033[32m如需重新安装，请先执行卸载: v298 " + os.v278.v104(__file__) + " del\033[0m")
             else:
                 print("\033[31m服务状态异常，建议尝试重新安装。\033[0m")
-                install(args) # 尝试重新安装
+                v219(v94) 
         else:
             print("\033[33m未检测到完整安装，开始执行安装流程...\033[0m")
-            install(args)
-
+            v219(v94)
 if __name__ == "__main__":
-    script_name = os.path.basename(__file__)
-    if len(sys.argv) == 1: # 如果只运行脚本名，没有其他参数
-        # 检查是否已安装，如果已安装且在运行，显示status，否则进行安装
-        if INSTALL_DIR.exists() and CONFIG_FILE.exists() and SB_PID_FILE.exists() and ARGO_PID_FILE.exists():
-            print(f"\033[33m检测到 ArgoSB 可能已安装。显示当前状态。\033[0m")
-            print(f"\033[33m如需重新安装，请运行: python3 {script_name} install\033[0m")
-            print(f"\033[33m如需卸载，请运行: python3 {script_name} del\033[0m")
-            check_status()
+    v333 = os.v278.v104(__file__)
+    if len(sys.v95) == 1: 
+        if v22.v183() and v6.v183() and v44.v183() and v440.v183():
+            print(v189"\033[33m检测到 v439 可能已安装。显示当前状态。\033[0m")
+            print(v189"\033[33m如需重新安装，请运行: v298 {v333} v219\033[0m")
+            print(v189"\033[33m如需卸载，请运行: v298 {v333} del\033[0m")
+            v125()
         else:
-            print(f"\033[33m未检测到安装或运行中的服务，将引导进行安装。\033[0m")
-            print(f"\033[33m你可以通过 'python3 {script_name} --help' 查看所有选项。\033[0m")
-            args = parse_args() # 解析空参数，会得到默认的 "install" action
-            install(args) # 调用安装函数
+            print(v189"\033[33m未检测到安装或运行中的服务，将引导进行安装。\033[0m")
+            print(v189"\033[33m你可以通过 'v298 {v333} --v206' 查看所有选项。\033[0m")
+            v94 = v276() 
+            v219(v94) 
     else:
-        main()
+        v250()
